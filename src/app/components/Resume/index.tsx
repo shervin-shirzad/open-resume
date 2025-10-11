@@ -1,6 +1,12 @@
 "use client";
 import MyModernTemplate from "./templates/MyModernTemplate";
 
+const templates = {
+  default: DefaultTemplate,
+  modern: MyModernTemplate
+};
+
+
 import { useState, useMemo } from "react";
 import { ResumeIframeCSR } from "components/Resume/ResumeIFrame";
 import { ResumePDF } from "components/Resume/ResumePDF";
