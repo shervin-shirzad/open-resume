@@ -1,0 +1,13 @@
+/* src/app/resume-builder/components/templates/MyModernTemplate/style.css */
+.modern-resume h1,
+.modern-resume h2 {
+  font-family: 'Inter', sans-serif;
+}
+
+.modern-resume ul {
+  padding-left: 1.25rem;
+}
+
+.modern-resume li {
+  margin-bottom: 0.25rem;
+}
