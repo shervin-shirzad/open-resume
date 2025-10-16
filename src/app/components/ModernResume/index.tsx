@@ -1,4 +1,3 @@
-// src/app/components/ModernResume/index.tsx
 "use client";
 import { useState, useMemo } from "react";
 import { ResumeIframeCSR } from "components/ModernResume/ResumeIFrame";
@@ -18,14 +17,13 @@ import {
 } from "components/fonts/hooks";
 import { NonEnglishFontsCSSLazyLoader } from "components/fonts/NonEnglishFontsCSSLoader";
 
-export const ModernResume = () => {
-  const [scale, setScale] = useState(0.8);
+export const CreativeResume = () => {
+  const [scale, setScale] = useState(0.85);
   const resume = useAppSelector(selectResume);
   const settings = useAppSelector(selectSettings);
 
-  // استفاده از ResumePDF به همراه تنظیمات Modern
   const document = useMemo(
-    () => <ResumePDF resume={resume} settings={settings} isPDF={true} template="modern" />,
+    () => <ResumePDF resume={resume} settings={settings} isPDF={true} />,
     [resume, settings]
   );
 
@@ -35,7 +33,39 @@ export const ModernResume = () => {
   return (
     <>
       <NonEnglishFontsCSSLazyLoader />
-      <div className="relative flex justify-center md:justify-start bg-gray-50">
-        <FlexboxSpacer maxWidth={50} className="hidden md:block" />
-        <div className="relative w-full max-w-3xl p-6">
-          <section className="h-[calc(100vh-var(--top-nav-bar-height)-var(--resume-control-bar-height))] overflow-hidden md:p-[var]()
+
+      {/* ظاهر متفاوت با Flex عمودی، پس‌زمینه رنگی و padding بیشتر */}
+      <div className="relative flex flex-col md:flex-row justify-center items-start bg-gradient-to-b from-purple-50 to-purple-100 min-h-[100vh]">
+        <FlexboxSpacer maxWidth={40} className="hidden md:block" />
+
+        {/* ستون اصلی رزومه با حاشیه و سایه */}
+        <div className="relative w-full md:w-3/4 p-8 bg-white shadow-xl rounded-xl">
+          <section className="h-[calc(100vh-var(--top-nav-bar-height)-var(--resume-control-bar-height))] overflow-auto">
+            <ResumeIframeCSR
+              documentSize={settings.documentSize}
+              scale={scale}
+              enablePDFViewer={DEBUG_RESUME_PDF_FLAG}
+            >
+              <ResumePDF
+                resume={resume}
+                settings={settings}
+                isPDF={DEBUG_RESUME_PDF_FLAG}
+              />
+            </ResumeIframeCSR>
+          </section>
+
+          {/* کنترل بار مثل قالب پیش‌فرض */}
+          <ResumeControlBarCSR
+            scale={scale}
+            setScale={setScale}
+            documentSize={settings.documentSize}
+            document={document}
+            fileName={resume.profile.name + " - Resume"}
+          />
+        </div>
+
+        <ResumeControlBarBorder />
+      </div>
+    </>
+  );
+};
