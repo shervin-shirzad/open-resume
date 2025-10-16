@@ -18,7 +18,7 @@ import {
 import { NonEnglishFontsCSSLazyLoader } from "components/fonts/NonEnglishFontsCSSLoader";
 
 export const ModernResume = () => {
-  const [scale, setScale] = useState(0.85);
+  const [scale, setScale] = useState(0.9);
   const resume = useAppSelector(selectResume);
   const settings = useAppSelector(selectSettings);
 
@@ -34,13 +34,14 @@ export const ModernResume = () => {
     <>
       <NonEnglishFontsCSSLazyLoader />
 
-      {/* ظاهر متفاوت با Flex عمودی، پس‌زمینه رنگی و padding بیشتر */}
-      <div className="relative flex flex-col md:flex-row justify-center items-start bg-gradient-to-b from-purple-50 to-purple-100 min-h-[100vh]">
-        <FlexboxSpacer maxWidth={40} className="hidden md:block" />
+      {/* پس‌زمینه با گرادینت و لایه محو */}
+      <div className="relative flex flex-col items-center justify-center min-h-[100vh] bg-gradient-to-br from-sky-50 via-blue-100 to-indigo-100 overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/noise-texture.png')] opacity-10" />
 
-        {/* ستون اصلی رزومه با حاشیه و سایه */}
-        <div className="relative w-full md:w-3/4 p-8 bg-white shadow-xl rounded-xl">
-          <section className="h-[calc(100vh-var(--top-nav-bar-height)-var(--resume-control-bar-height))] overflow-auto">
+        {/* کارت رزومه */}
+        <div className="relative w-[90%] md:w-[70%] lg:w-[60%] bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl border border-gray-200 overflow-hidden transition-transform hover:scale-[1.01] duration-500">
+          {/* بخش نمایش رزومه */}
+          <section className="max-h-[calc(100vh-180px)] overflow-auto p-6 md:p-8">
             <ResumeIframeCSR
               documentSize={settings.documentSize}
               scale={scale}
@@ -54,16 +55,19 @@ export const ModernResume = () => {
             </ResumeIframeCSR>
           </section>
 
-          {/* کنترل بار مثل قالب پیش‌فرض */}
-          <ResumeControlBarCSR
-            scale={scale}
-            setScale={setScale}
-            documentSize={settings.documentSize}
-            document={document}
-            fileName={resume.profile.name + " - Resume"}
-          />
+          {/* کنترل بار در پایین */}
+          <div className="bg-white/80 backdrop-blur-sm border-t border-gray-200 sticky bottom-0">
+            <ResumeControlBarCSR
+              scale={scale}
+              setScale={setScale}
+              documentSize={settings.documentSize}
+              document={document}
+              fileName={resume.profile.name + " - Modern Resume"}
+            />
+          </div>
         </div>
 
+        <FlexboxSpacer maxWidth={60} className="hidden md:block" />
         <ResumeControlBarBorder />
       </div>
     </>
