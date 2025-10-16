@@ -5,7 +5,7 @@ import { ResumePDF } from "components/ModernResume/ResumePDF";
 import {
   ResumeControlBarCSR,
   ResumeControlBarBorder,
-} from "components/Resume/ResumeControlBar";
+} from "components/ModernResume/ResumeControlBar";
 import { FlexboxSpacer } from "components/FlexboxSpacer";
 import { useAppSelector } from "lib/redux/hooks";
 import { selectResume } from "lib/redux/resumeSlice";
