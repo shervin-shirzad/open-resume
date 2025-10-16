@@ -17,7 +17,7 @@ import {
 } from "components/fonts/hooks";
 import { NonEnglishFontsCSSLazyLoader } from "components/fonts/NonEnglishFontsCSSLoader";
 
-export const CreativeResume = () => {
+export const ModernResume = () => {
   const [scale, setScale] = useState(0.85);
   const resume = useAppSelector(selectResume);
   const settings = useAppSelector(selectSettings);
