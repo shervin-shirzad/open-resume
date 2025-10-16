@@ -1,8 +1,8 @@
 // src/app/components/ModernResume/index.tsx
 "use client";
 import { useState, useMemo } from "react";
-import { ResumeIframeCSR } from "components/Resume/ResumeIFrame";
-import { ResumePDF } from "components/Resume/ResumePDF";
+import { ResumeIframeCSR } from "components/ModernResume/ResumeIFrame";
+import { ResumePDF } from "components/ModernResume/ResumePDF";
 import {
   ResumeControlBarCSR,
   ResumeControlBarBorder,
