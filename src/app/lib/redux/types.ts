@@ -51,4 +51,14 @@ export interface Resume {
   custom: ResumeCustom;
 }
 
+export type ResumeProfile = {
+  name: string;
+  email?: string;
+  phone?: string;
+  url?: string;
+  location?: string;
+  summary?: string;
+  avatar?: string; // اضافه شد
+};
+
 export type ResumeKey = keyof Resume;
