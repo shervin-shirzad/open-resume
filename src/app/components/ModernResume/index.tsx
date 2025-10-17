@@ -54,10 +54,12 @@ export const ModernResume = () => {
             >
               <div
                 className="flex flex-col items-start gap-6 px-10 py-8 text-gray-800"
-                style={{
-                  fontFamily: settings.fontFamily,
-                  color: settings.fontColor,
-                }}
+                 import { DEFAULT_FONT_COLOR } from "lib/redux/settingsSlice";
+                  style={{
+                    fontFamily: settings.fontFamily,
+                    color: settings.themeColor || DEFAULT_FONT_COLOR,
+                  }}
+
               >
                 {/* ستون اول - اطلاعات شخصی */}
                 <div className="w-full border-b pb-4">
