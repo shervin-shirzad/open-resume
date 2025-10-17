@@ -43,10 +43,12 @@ export const ResumeTable = ({ resume }: { resume: Resume }) => {
     resume.educations.length === 0
       ? [deepClone(initialEducation)]
       : resume.educations;
+
   const workExperiences =
     resume.workExperiences.length === 0
       ? [deepClone(initialWorkExperience)]
       : resume.workExperiences;
+
   const skills = [...resume.skills.descriptions];
   const featuredSkills = resume.skills.featuredSkills
     .filter((item) => item.skill.trim())
@@ -56,16 +58,20 @@ export const ResumeTable = ({ resume }: { resume: Resume }) => {
   if (featuredSkills) {
     skills.unshift(featuredSkills);
   }
+
   return (
     <table className="mt-2 w-full border text-sm text-gray-900">
       <tbody className="divide-y text-left align-top">
+        {/* Profile */}
         <TableRowHeader>Profile</TableRowHeader>
         <TableRow label="Name" value={resume.profile.name} />
-        <TableRow label="Email" value={resume.profile.email} />
-        <TableRow label="Phone" value={resume.profile.phone} />
-        <TableRow label="Location" value={resume.profile.location} />
-        <TableRow label="Link" value={resume.profile.url} />
-        <TableRow label="Summary" value={resume.profile.summary} />
+        <TableRow label="Email" value={resume.profile.email ?? ""} />
+        <TableRow label="Phone" value={resume.profile.phone ?? ""} />
+        <TableRow label="Location" value={resume.profile.location ?? ""} />
+        <TableRow label="Link" value={resume.profile.url ?? ""} />
+        <TableRow label="Summary" value={resume.profile.summary ?? ""} />
+
+        {/* Education */}
         <TableRowHeader>Education</TableRowHeader>
         {educations.map((education, idx) => (
           <Fragment key={idx}>
@@ -84,6 +90,8 @@ export const ResumeTable = ({ resume }: { resume: Resume }) => {
             />
           </Fragment>
         ))}
+
+        {/* Work Experience */}
         <TableRowHeader>Work Experience</TableRowHeader>
         {workExperiences.map((workExperience, idx) => (
           <Fragment key={idx}>
@@ -101,9 +109,9 @@ export const ResumeTable = ({ resume }: { resume: Resume }) => {
             />
           </Fragment>
         ))}
-        {resume.projects.length > 0 && (
-          <TableRowHeader>Projects</TableRowHeader>
-        )}
+
+        {/* Projects */}
+        {resume.projects.length > 0 && <TableRowHeader>Projects</TableRowHeader>}
         {resume.projects.map((project, idx) => (
           <Fragment key={idx}>
             <TableRow label="Project" value={project.project} />
@@ -119,6 +127,8 @@ export const ResumeTable = ({ resume }: { resume: Resume }) => {
             />
           </Fragment>
         ))}
+
+        {/* Skills */}
         <TableRowHeader>Skills</TableRowHeader>
         <TableRow label="Descriptions" value={skills} />
       </tbody>
