@@ -58,7 +58,7 @@ export type ResumeProfile = {
   url?: string;
   location?: string;
   summary?: string;
-  avatar?: string; // اضافه شد
+  avatar?: string; // ← اضافه شد
 };
 
 export type ResumeKey = keyof Resume;
