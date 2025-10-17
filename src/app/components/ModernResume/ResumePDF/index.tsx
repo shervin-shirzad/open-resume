@@ -1,4 +1,4 @@
-import { Page, View, Document } from "@react-pdf/renderer";
+import { Page, View, Document, Text } from "@react-pdf/renderer";
 import { styles, spacing } from "components/ModernResume/ResumePDF/styles";
 import { ResumePDFProfile } from "components/ModernResume/ResumePDF/ResumePDFProfile";
 import { ResumePDFWorkExperience } from "components/ModernResume/ResumePDF/ResumePDFWorkExperience";
@@ -41,6 +41,9 @@ export const ResumePDF = ({
             color: DEFAULT_FONT_COLOR,
             fontFamily,
             fontSize: fontSize + "pt",
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            padding: spacing[3],
           }}
         >
           {/* نوار رنگی بالای صفحه */}
@@ -54,19 +57,21 @@ export const ResumePDF = ({
             />
           )}
 
-          {/* ساختار دو ستونه */}
+          {/* ساختار دو ستونه با ارتفاع یکسان */}
           <View
             style={{
               display: "flex",
               flexDirection: "row",
               width: spacing["full"],
               flexGrow: 1,
+              minHeight: "100%",
             }}
           >
-            {/* ستون چپ */}
+            {/* ستون چپ - اطلاعات پایه */}
             <View
               style={{
-                width: "32%",
+                flex: 1,
+                maxWidth: "32%",
                 backgroundColor: "#f8f8f8",
                 padding: spacing[3],
                 borderRight: `2px solid ${themeColor}`,
@@ -76,6 +81,7 @@ export const ResumePDF = ({
                 profile={profile}
                 themeColor={themeColor}
                 isPDF={isPDF}
+                showSummary={false} // توضیحات درباره من به ستون راست منتقل شد
               />
 
               <View style={{ marginTop: spacing[3] }}>
@@ -97,23 +103,40 @@ export const ResumePDF = ({
                   />
                 </View>
               ) : null}
-
             </View>
 
-            {/* ستون راست */}
+            {/* ستون راست - محتوای اصلی */}
             <View
               style={{
-                width: "68%",
+                flex: 2,
                 padding: `${spacing[5]} ${spacing[6]}`,
                 backgroundColor: "#ffffff",
               }}
             >
+              {/* درباره من */}
+              {profile.summary && (
+                <View style={{ marginBottom: spacing[4] }}>
+                  <Text
+                    style={{
+                      fontSize: fontSize,
+                      fontFamily,
+                      color: themeColor,
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    {profile.summary}
+                  </Text>
+                </View>
+              )}
+
+              {/* تجربه کاری */}
               <ResumePDFWorkExperience
                 heading={formToHeading["workExperiences"]}
                 workExperiences={workExperiences}
                 themeColor={themeColor}
               />
 
+              {/* تحصیلات */}
               <View style={{ marginTop: spacing[4] }}>
                 <ResumePDFEducation
                   heading={formToHeading["educations"]}
@@ -123,6 +146,7 @@ export const ResumePDF = ({
                 />
               </View>
 
+              {/* پروژه‌ها */}
               {projects?.length ? (
                 <View style={{ marginTop: spacing[4] }}>
                   <ResumePDFProject
