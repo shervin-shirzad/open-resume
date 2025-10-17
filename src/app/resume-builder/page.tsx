@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { store } from "lib/redux/store";
 import { ResumeForm } from "components/ResumeForm";
 import { Resume } from "components/Resume";
-import { ModernResume } from "components/ModernResume";
+import { Resume as ModernResum } from "components/ModernResume";
 
 export default function Create() {
   const [template, setTemplate] = useState("default");
