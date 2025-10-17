@@ -7,7 +7,7 @@ import { ResumePDFProject } from "components/ModernResume/ResumePDF/ResumePDFPro
 import { ResumePDFSkills } from "components/ModernResume/ResumePDF/ResumePDFSkills";
 import { ResumePDFCustom } from "components/ModernResume/ResumePDF/ResumePDFCustom";
 import { DEFAULT_FONT_COLOR } from "lib/redux/settingsSlice";
-import type { Settings, ShowForm } from "lib/redux/settingsSlice";
+import type { Settings } from "lib/redux/settingsSlice";
 import type { Resume } from "lib/redux/types";
 import { SuppressResumePDFErrorMessage } from "components/ModernResume/ResumePDF/common/SuppressResumePDFErrorMessage";
 
@@ -22,13 +22,7 @@ export const ResumePDF = ({
 }) => {
   const { profile, workExperiences, educations, projects, skills, custom } = resume;
   const { name } = profile;
-  const {
-    fontFamily,
-    fontSize,
-    documentSize,
-    formToHeading,
-    showBulletPoints,
-  } = settings;
+  const { fontFamily, fontSize, documentSize, formToHeading, showBulletPoints } = settings;
   const themeColor = settings.themeColor || DEFAULT_FONT_COLOR;
 
   return (
@@ -41,9 +35,6 @@ export const ResumePDF = ({
             color: DEFAULT_FONT_COLOR,
             fontFamily,
             fontSize: fontSize + "pt",
-            flexDirection: "column",
-            justifyContent: "flex-start",
-            padding: spacing[3],
           }}
         >
           {/* نوار رنگی بالای صفحه */}
@@ -57,32 +48,26 @@ export const ResumePDF = ({
             />
           )}
 
-          {/* ساختار دو ستونه با ارتفاع یکسان */}
+          {/* ساختار دو ستونه */}
           <View
             style={{
               display: "flex",
               flexDirection: "row",
               width: spacing["full"],
               flexGrow: 1,
-              minHeight: "100%",
+              minHeight: "100%", // تا انتهای صفحه ادامه پیدا کند
             }}
           >
-            {/* ستون چپ - اطلاعات پایه */}
+            {/* ستون چپ */}
             <View
               style={{
-                flex: 1,
-                maxWidth: "32%",
+                width: "32%",
                 backgroundColor: "#f8f8f8",
                 padding: spacing[3],
                 borderRight: `2px solid ${themeColor}`,
               }}
             >
-              <ResumePDFProfile
-                profile={profile}
-                themeColor={themeColor}
-                isPDF={isPDF}
-                showSummary={false} // توضیحات درباره من به ستون راست منتقل شد
-              />
+              <ResumePDFProfile profile={profile} themeColor={themeColor} isPDF={isPDF} />
 
               <View style={{ marginTop: spacing[3] }}>
                 <ResumePDFSkills
@@ -105,15 +90,18 @@ export const ResumePDF = ({
               ) : null}
             </View>
 
-            {/* ستون راست - محتوای اصلی */}
+            {/* ستون راست */}
             <View
               style={{
-                flex: 2,
+                width: "68%",
                 padding: `${spacing[5]} ${spacing[6]}`,
                 backgroundColor: "#ffffff",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "flex-start",
               }}
             >
-              {/* درباره من */}
+              {/* متن درباره من */}
               {profile.summary && (
                 <View style={{ marginBottom: spacing[4] }}>
                   <Text
@@ -129,14 +117,12 @@ export const ResumePDF = ({
                 </View>
               )}
 
-              {/* تجربه کاری */}
               <ResumePDFWorkExperience
                 heading={formToHeading["workExperiences"]}
                 workExperiences={workExperiences}
                 themeColor={themeColor}
               />
 
-              {/* تحصیلات */}
               <View style={{ marginTop: spacing[4] }}>
                 <ResumePDFEducation
                   heading={formToHeading["educations"]}
@@ -146,7 +132,6 @@ export const ResumePDF = ({
                 />
               </View>
 
-              {/* پروژه‌ها */}
               {projects?.length ? (
                 <View style={{ marginTop: spacing[4] }}>
                   <ResumePDFProject
