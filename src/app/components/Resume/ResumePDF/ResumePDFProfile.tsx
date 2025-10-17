@@ -1,5 +1,4 @@
-import { useState, ChangeEvent } from "react";
-import { View, Image } from "@react-pdf/renderer";
+import { View } from "@react-pdf/renderer";
 import {
   ResumePDFIcon,
   type IconType,
@@ -21,60 +20,11 @@ export const ResumePDFProfile = ({
   themeColor: string;
   isPDF: boolean;
 }) => {
-  const { name, email, phone, url, summary, location, avatar } = profile;
+  const { name, email, phone, url, summary, location } = profile;
   const iconProps = { email, phone, location, url };
-
-  // فقط برای نمایش روی سایت: انتخاب تصویر جدید
-  const [localAvatar, setLocalAvatar] = useState<string | undefined>(avatar);
-
-  const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const result = reader.result as string;
-      setLocalAvatar(result);
-    };
-    reader.readAsDataURL(file);
-  };
 
   return (
     <ResumePDFSection style={{ marginTop: spacing["4"] }}>
-      {/* بخش تصویر پروفایل */}
-      <div style={{ marginBottom: "1rem" }}>
-        {!isPDF && (
-          <>
-            <label
-              style={{ fontWeight: "bold", display: "block", marginBottom: 4 }}
-            >
-              تصویر پروفایل
-            </label>
-            <input type="file" accept="image/*" onChange={handleImageUpload} />
-          </>
-        )}
-        {(localAvatar || avatar) && (
-          isPDF ? (
-            <Image
-              src={avatar || localAvatar}
-              style={{ width: 100, height: 100, borderRadius: "50%" }}
-            />
-          ) : (
-            <img
-              src={localAvatar || avatar}
-              alt="Profile"
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: "50%",
-                objectFit: "cover",
-                border: "2px solid #ccc",
-                marginTop: 8,
-              }}
-            />
-          )
-        )}
-      </div>
-
       <ResumePDFText
         bold={true}
         themeColor={themeColor}
@@ -83,7 +33,6 @@ export const ResumePDFProfile = ({
         {name}
       </ResumePDFText>
       {summary && <ResumePDFText>{summary}</ResumePDFText>}
-
       <View
         style={{
           ...styles.flexRowBetween,
@@ -109,16 +58,35 @@ export const ResumePDFProfile = ({
 
             let src = "";
             switch (key) {
-              case "email": src = `mailto:${value}`; break;
-              case "phone": src = `tel:${value.replace(/[^\d+]/g, "")}`; break;
-              default: src = value.startsWith("http") ? value : `https://${value}`;
+              case "email": {
+                src = `mailto:${value}`;
+                break;
+              }
+              case "phone": {
+                src = `tel:${value.replace(/[^\d+]/g, "")}`; // Keep only + and digits
+                break;
+              }
+              default: {
+                src = value.startsWith("http") ? value : `https://${value}`;
+              }
             }
 
-            return <ResumePDFLink src={src} isPDF={isPDF}>{children}</ResumePDFLink>;
+            return (
+              <ResumePDFLink src={src} isPDF={isPDF}>
+                {children}
+              </ResumePDFLink>
+            );
           };
 
           return (
-            <View key={key} style={{ ...styles.flexRow, alignItems: "center", gap: spacing["1"] }}>
+            <View
+              key={key}
+              style={{
+                ...styles.flexRow,
+                alignItems: "center",
+                gap: spacing["1"],
+              }}
+            >
               <ResumePDFIcon type={iconType} isPDF={isPDF} />
               <Wrapper>
                 <ResumePDFText>{value}</ResumePDFText>
