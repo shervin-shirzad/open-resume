@@ -87,7 +87,7 @@ export const ResumePDF = ({
                 />
               </View>
 
-              {custom?.length ? (
+              {custom ? (
                 <View style={{ marginTop: spacing[3] }}>
                   <ResumePDFCustom
                     heading={formToHeading["custom"]}
@@ -97,6 +97,7 @@ export const ResumePDF = ({
                   />
                 </View>
               ) : null}
+
             </View>
 
             {/* ستون راست */}
