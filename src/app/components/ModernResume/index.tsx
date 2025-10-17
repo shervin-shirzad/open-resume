@@ -1,15 +1,15 @@
 "use client";
 import { useState, useMemo } from "react";
-import { ResumeIframeCSR } from "components/Resume/ResumeIFrame";
-import { ResumePDF } from "components/Resume/ResumePDF";
+import { ResumeIframeCSR } from "components/ModernResume/ResumeIFrame";
+import { ResumePDF } from "components/ModernResume/ResumePDF";
 import {
   ResumeControlBarCSR,
   ResumeControlBarBorder,
-} from "components/Resume/ResumeControlBar";
+} from "components/ModernResume/ResumeControlBar";
 import { FlexboxSpacer } from "components/FlexboxSpacer";
 import { useAppSelector } from "lib/redux/hooks";
 import { selectResume } from "lib/redux/resumeSlice";
-import { selectSettings, DEFAULT_FONT_COLOR } from "lib/redux/settingsSlice";
+import { selectSettings } from "lib/redux/settingsSlice";
 import { DEBUG_RESUME_PDF_FLAG } from "lib/constants";
 import {
   useRegisterReactPDFFont,
@@ -17,11 +17,10 @@ import {
 } from "components/fonts/hooks";
 import { NonEnglishFontsCSSLazyLoader } from "components/fonts/NonEnglishFontsCSSLoader";
 
-export const ModernResume = () => {
+export const Resume = () => {
   const [scale, setScale] = useState(0.8);
   const resume = useAppSelector(selectResume);
   const settings = useAppSelector(selectSettings);
-
   const document = useMemo(
     () => <ResumePDF resume={resume} settings={settings} isPDF={true} />,
     [resume, settings]
@@ -36,14 +35,7 @@ export const ModernResume = () => {
       <div className="relative flex justify-center md:justify-start">
         <FlexboxSpacer maxWidth={50} className="hidden md:block" />
         <div className="relative">
-          <section
-            className="h-[calc(100vh-var(--top-nav-bar-height)-var(--resume-control-bar-height))] 
-                       overflow-hidden md:p-[var(--resume-padding)]"
-            style={{
-              fontFamily: settings.fontFamily,
-              color: settings.themeColor || DEFAULT_FONT_COLOR,
-            }}
-          >
+          <section className="h-[calc(100vh-var(--top-nav-bar-height)-var(--resume-control-bar-height))] overflow-hidden md:p-[var(--resume-padding)]">
             <ResumeIframeCSR
               documentSize={settings.documentSize}
               scale={scale}
@@ -69,5 +61,3 @@ export const ModernResume = () => {
     </>
   );
 };
-
-export default ModernResume;
