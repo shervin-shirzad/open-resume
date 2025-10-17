@@ -1,100 +1,77 @@
-import { View } from "@react-pdf/renderer";
-import {
-  ResumePDFIcon,
-  type IconType,
-} from "components/Resume/ResumePDF/common/ResumePDFIcon";
-import { styles, spacing } from "components/Resume/ResumePDF/styles";
-import {
-  ResumePDFLink,
-  ResumePDFSection,
-  ResumePDFText,
-} from "components/Resume/ResumePDF/common";
+import { useState, ChangeEvent } from "react";
+import { ResumePDFProfile } from "components/Resume/ResumePDF/ResumePDFProfile";
 import type { ResumeProfile } from "lib/redux/types";
 
-export const ResumePDFProfile = ({
-  profile,
-  themeColor,
-  isPDF,
-}: {
-  profile: ResumeProfile;
-  themeColor: string;
-  isPDF: boolean;
-}) => {
-  const { name, email, phone, url, summary, location } = profile;
-  const iconProps = { email, phone, location, url };
+export const ProfileForm = () => {
+  const [profile, setProfile] = useState<ResumeProfile>({
+    name: "",
+    email: "",
+    phone: "",
+    url: "",
+    location: "",
+    summary: "",
+    avatar: "", // مسیر Base64 تصویر
+  });
+
+  // وقتی کاربر تصویر انتخاب می‌کند
+  const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setProfile((prev) => ({
+        ...prev,
+        avatar: reader.result as string, // Base64 تصویر
+      }));
+    };
+    reader.readAsDataURL(file);
+  };
 
   return (
-    <ResumePDFSection style={{ marginTop: spacing["4"] }}>
-      <ResumePDFText
-        bold={true}
-        themeColor={themeColor}
-        style={{ fontSize: "20pt" }}
-      >
-        {name}
-      </ResumePDFText>
-      {summary && <ResumePDFText>{summary}</ResumePDFText>}
-      <View
-        style={{
-          ...styles.flexRowBetween,
-          flexWrap: "wrap",
-          marginTop: spacing["0.5"],
-        }}
-      >
-        {Object.entries(iconProps).map(([key, value]) => {
-          if (!value) return null;
+    <div>
+      <h2>اطلاعات پروفایل</h2>
 
-          let iconType = key as IconType;
-          if (key === "url") {
-            if (value.includes("github")) {
-              iconType = "url_github";
-            } else if (value.includes("linkedin")) {
-              iconType = "url_linkedin";
-            }
-          }
+      {/* فیلد نام */}
+      <input
+        type="text"
+        placeholder="نام"
+        value={profile.name}
+        onChange={(e) =>
+          setProfile((prev) => ({ ...prev, name: e.target.value }))
+        }
+      />
 
-          const shouldUseLinkWrapper = ["email", "url", "phone"].includes(key);
-          const Wrapper = ({ children }: { children: React.ReactNode }) => {
-            if (!shouldUseLinkWrapper) return <>{children}</>;
+      {/* فیلد ایمیل */}
+      <input
+        type="email"
+        placeholder="ایمیل"
+        value={profile.email}
+        onChange={(e) =>
+          setProfile((prev) => ({ ...prev, email: e.target.value }))
+        }
+      />
 
-            let src = "";
-            switch (key) {
-              case "email": {
-                src = `mailto:${value}`;
-                break;
-              }
-              case "phone": {
-                src = `tel:${value.replace(/[^\d+]/g, "")}`; // Keep only + and digits
-                break;
-              }
-              default: {
-                src = value.startsWith("http") ? value : `https://${value}`;
-              }
-            }
+      {/* آپلود تصویر */}
+      <input type="file" accept="image/*" onChange={handleImageUpload} />
 
-            return (
-              <ResumePDFLink src={src} isPDF={isPDF}>
-                {children}
-              </ResumePDFLink>
-            );
-          };
+      {profile.avatar && (
+        <div>
+          <p>پیش‌نمایش تصویر:</p>
+          <img
+            src={profile.avatar}
+            alt="Profile Preview"
+            style={{ width: 100, height: 100, borderRadius: "50%" }}
+          />
+        </div>
+      )}
 
-          return (
-            <View
-              key={key}
-              style={{
-                ...styles.flexRow,
-                alignItems: "center",
-                gap: spacing["1"],
-              }}
-            >
-              <ResumePDFIcon type={iconType} isPDF={isPDF} />
-              <Wrapper>
-                <ResumePDFText>{value}</ResumePDFText>
-              </Wrapper>
-            </View>
-          );
-        })}
-      </View>
-    </ResumePDFSection>
+      {/* نمایش رزومه PDF */}
+      <ResumePDFProfile
+        profile={profile}
+        themeColor="#2a9d8f"
+        isPDF={false} // در فرم پیش‌نمایش
+      />
+    </div>
   );
 };
