@@ -1,15 +1,15 @@
 import { Page, View, Document } from "@react-pdf/renderer";
-import { styles, spacing } from "components/Resume/ResumePDF/styles";
-import { ResumePDFProfile } from "components/Resume/ResumePDF/ResumePDFProfile";
-import { ResumePDFWorkExperience } from "components/Resume/ResumePDF/ResumePDFWorkExperience";
-import { ResumePDFEducation } from "components/Resume/ResumePDF/ResumePDFEducation";
-import { ResumePDFProject } from "components/Resume/ResumePDF/ResumePDFProject";
-import { ResumePDFSkills } from "components/Resume/ResumePDF/ResumePDFSkills";
-import { ResumePDFCustom } from "components/Resume/ResumePDF/ResumePDFCustom";
+import { styles, spacing } from "components/ModernResume/ResumePDF/styles";
+import { ResumePDFProfile } from "components/ModernResume/ResumePDF/ResumePDFProfile";
+import { ResumePDFWorkExperience } from "components/ModernResume/ResumePDF/ResumePDFWorkExperience";
+import { ResumePDFEducation } from "components/ModernResume/ResumePDF/ResumePDFEducation";
+import { ResumePDFProject } from "components/ModernResume/ResumePDF/ResumePDFProject";
+import { ResumePDFSkills } from "components/ModernResume/ResumePDF/ResumePDFSkills";
+import { ResumePDFCustom } from "components/ModernResume/ResumePDF/ResumePDFCustom";
 import { DEFAULT_FONT_COLOR } from "lib/redux/settingsSlice";
 import type { Settings, ShowForm } from "lib/redux/settingsSlice";
 import type { Resume } from "lib/redux/types";
-import { SuppressResumePDFErrorMessage } from "components/Resume/ResumePDF/common/SuppressResumePDFErrorMessage";
+import { SuppressResumePDFErrorMessage } from "components/ModernResume/ResumePDF/common/SuppressResumePDFErrorMessage";
 
 export const ResumePDFTemplate14 = ({
   resume,
