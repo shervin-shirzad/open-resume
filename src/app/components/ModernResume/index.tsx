@@ -11,7 +11,7 @@ import type { Settings, ShowForm } from "lib/redux/settingsSlice";
 import type { Resume } from "lib/redux/types";
 import { SuppressResumePDFErrorMessage } from "components/ModernResume/ResumePDF/common/SuppressResumePDFErrorMessage";
 
-export const ResumePDFTemplate14 = ({
+export const ResumePDF = ({
   resume,
   settings,
   isPDF = false,
