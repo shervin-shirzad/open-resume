@@ -149,7 +149,8 @@ export const ResumePDFTemplate14 = ({
                   showBulletPoints={showBulletPoints["educations"]}
                 />
               )}
-              {skills?.length > 0 && (
+              
+             {Array.isArray(skills) && skills.length > 0 && (
                 <ResumePDFSkills
                   heading={formToHeading["skills"]}
                   skills={skills}
@@ -157,6 +158,7 @@ export const ResumePDFTemplate14 = ({
                   showBulletPoints={showBulletPoints["skills"]}
                 />
               )}
+
             </View>
           </View>
         </Page>
